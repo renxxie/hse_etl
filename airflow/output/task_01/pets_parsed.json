@@ -1,0 +1,51 @@
+[
+  {
+    "name": "Purrsloud",
+    "species": "Cat",
+    "birth_year": 2016,
+    "photo": "https://learnwebcode.github.io/json-example/images/cat-2.jpg",
+    "fav_food": "wet food"
+  },
+  {
+    "name": "Purrsloud",
+    "species": "Cat",
+    "birth_year": 2016,
+    "photo": "https://learnwebcode.github.io/json-example/images/cat-2.jpg",
+    "fav_food": "dry food"
+  },
+  {
+    "name": "Purrsloud",
+    "species": "Cat",
+    "birth_year": 2016,
+    "photo": "https://learnwebcode.github.io/json-example/images/cat-2.jpg",
+    "fav_food": "<strong>any</strong> food"
+  },
+  {
+    "name": "Barksalot",
+    "species": "Dog",
+    "birth_year": 2008,
+    "photo": "https://learnwebcode.github.io/json-example/images/dog-1.jpg",
+    "fav_food": null
+  },
+  {
+    "name": "Meowsalot",
+    "species": "Cat",
+    "birth_year": 2012,
+    "photo": "https://learnwebcode.github.io/json-example/images/cat-1.jpg",
+    "fav_food": "tuna"
+  },
+  {
+    "name": "Meowsalot",
+    "species": "Cat",
+    "birth_year": 2012,
+    "photo": "https://learnwebcode.github.io/json-example/images/cat-1.jpg",
+    "fav_food": "catnip"
+  },
+  {
+    "name": "Meowsalot",
+    "species": "Cat",
+    "birth_year": 2012,
+    "photo": "https://learnwebcode.github.io/json-example/images/cat-1.jpg",
+    "fav_food": "celery"
+  }
+]

@@ -1,0 +1,87 @@
+services:
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    volumes:
+      - postgres-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "airflow"]
+      interval: 5s
+      retries: 5
+
+  airflow-init:
+    image: apache/airflow:2.9.0-python3.10
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__PARALLELISM: 16
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+      AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+      AIRFLOW__CORE__DAGS_FOLDER: /app/dags
+      AIRFLOW__CORE__FERNET_KEY: 'YiZBq1HrU12evlGRMY3V7tJNUxU2yMIiYA7vEZ-UNKo='
+      AIRFLOW__WEBSERVER__SECRET_KEY: 'secret_key'
+      AIRFLOW__CORE__UNIT_TEST_MODE: 'false'
+    volumes:
+      - .:/app
+      - ./init-user.sh:/init-user.sh:ro
+    entrypoint: ["/bin/bash", "/init-user.sh"]
+
+  airflow-webserver:
+    image: apache/airflow:2.9.0-python3.10
+    depends_on:
+      postgres:
+        condition: service_healthy
+      airflow-init:
+        condition: service_completed_successfully
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__PARALLELISM: 16
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+      AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+      AIRFLOW__CORE__DAGS_FOLDER: /app/dags
+      AIRFLOW__CORE__FERNET_KEY: 'YiZBq1HrU12evlGRMY3V7tJNUxU2yMIiYA7vEZ-UNKo='
+      AIRFLOW__WEBSERVER__SECRET_KEY: 'secret_key'
+      _PIP_ADDITIONAL_REQUIREMENTS: 'pandas requests psycopg2-binary'
+      AIRFLOW__CORE__UNIT_TEST_MODE: 'false'
+    volumes:
+      - .:/app
+    ports:
+      - "8080:8080"
+    command: ["airflow", "webserver"]
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  airflow-scheduler:
+    image: apache/airflow:2.9.0-python3.10
+    depends_on:
+      postgres:
+        condition: service_healthy
+      airflow-init:
+        condition: service_completed_successfully
+      airflow-webserver:
+        condition: service_healthy
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__PARALLELISM: 16
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+      AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+      AIRFLOW__CORE__DAGS_FOLDER: /app/dags
+      AIRFLOW__CORE__FERNET_KEY: 'YiZBq1HrU12evlGRMY3V7tJNUxU2yMIiYA7vEZ-UNKo='
+      AIRFLOW__WEBSERVER__SECRET_KEY: 'secret_key'
+      _PIP_ADDITIONAL_REQUIREMENTS: 'pandas requests psycopg2-binary'
+      AIRFLOW__CORE__UNIT_TEST_MODE: 'false'
+    volumes:
+      - .:/app
+    command: ["airflow", "scheduler"]
+
+volumes:
+  postgres-db:
