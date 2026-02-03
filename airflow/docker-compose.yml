@@ -46,7 +46,7 @@ services:
       AIRFLOW__CORE__DAGS_FOLDER: /app/dags
       AIRFLOW__CORE__FERNET_KEY: 'YiZBq1HrU12evlGRMY3V7tJNUxU2yMIiYA7vEZ-UNKo='
       AIRFLOW__WEBSERVER__SECRET_KEY: 'secret_key'
-      _PIP_ADDITIONAL_REQUIREMENTS: 'pandas requests psycopg2-binary'
+      _PIP_ADDITIONAL_REQUIREMENTS: 'pandas requests psycopg2-binary kagglehub'
       AIRFLOW__CORE__UNIT_TEST_MODE: 'false'
     volumes:
       - .:/app
@@ -77,7 +77,7 @@ services:
       AIRFLOW__CORE__DAGS_FOLDER: /app/dags
       AIRFLOW__CORE__FERNET_KEY: 'YiZBq1HrU12evlGRMY3V7tJNUxU2yMIiYA7vEZ-UNKo='
       AIRFLOW__WEBSERVER__SECRET_KEY: 'secret_key'
-      _PIP_ADDITIONAL_REQUIREMENTS: 'pandas requests psycopg2-binary'
+      _PIP_ADDITIONAL_REQUIREMENTS: 'pandas requests psycopg2-binary kagglehub'
       AIRFLOW__CORE__UNIT_TEST_MODE: 'false'
     volumes:
       - .:/app
