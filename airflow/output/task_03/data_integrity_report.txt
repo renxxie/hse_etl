@@ -1,0 +1,11 @@
+Data Integrity Report - 2026-02-10 09:22:09.351984
+==================================================
+
+temperature_readings_final:
+  Total rows: 19000
+  Distinct days: 72
+  Date range: 2018-07-28 to 2018-12-08
+  Temperature: avg=30.46, min=27.00, max=34.00
+
+extreme_days_final:
+  Total rows: 10
